@@ -6,3 +6,14 @@ Simulating and comparing different Intelligent transportation systems
 ```py
 python -m comet.app
 ```
+
+## Agents
+
+### Basic Car
+
+* use arrow keys to move car
+* implements drag and speed limits
+
+## Genral Usage
+
+* press `Shift` to reset
