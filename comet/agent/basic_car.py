@@ -20,7 +20,7 @@ class BasicCar:
 
         # positve is forward and negative is backward
         self.velocity = 0
-        self.rotational_velocity = 0
+        self.angular_velocity = 0
 
         self.trail = [(x, y)]
 
@@ -46,13 +46,13 @@ class BasicCar:
                 self.velocity = max(-10, self.velocity - 2)
 
         if keys_pressed[K_LEFT] and int(self.velocity) != 0:
-            self.rotational_velocity = min(8, self.rotational_velocity + 1)
+            self.angular_velocity = min(8, self.angular_velocity + 1)
 
         if keys_pressed[K_RIGHT] and self.velocity != 0:
-            self.rotational_velocity = max(-8, self.rotational_velocity - 1)
+            self.angular_velocity = max(-8, self.angular_velocity - 1)
 
-        if not keys_pressed[K_LEFT] and not keys_pressed[K_RIGHT] and self.rotational_velocity != 0:
-            self.rotational_velocity *= 0.8
+        if not keys_pressed[K_LEFT] and not keys_pressed[K_RIGHT] and self.angular_velocity != 0:
+            self.angular_velocity *= 0.8
 
         if not keys_pressed[K_UP] and not keys_pressed[K_DOWN] and self.velocity != 0:
             if self.velocity**2 < 0.01:
@@ -66,7 +66,7 @@ class BasicCar:
         if len(self.trail) > 100:
             self.trail.pop(0)
 
-        self.angle += self.rotational_velocity
+        self.angle += self.angular_velocity
 
         radian = np.radians(self.angle)
 
