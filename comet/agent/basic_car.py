@@ -22,7 +22,7 @@ class BasicCar:
         self.velocity = 0
         self.angular_velocity = 0
 
-        self.trail = [(x, y)]
+        self.trail = [(x, y, 1)]
 
         # todo: extract to func later
         factor = 10
@@ -63,7 +63,7 @@ class BasicCar:
     def update(self):
         self.rules()
 
-        self.trail.append((self.x, self.y))
+        self.trail.append((self.x, self.y, self.velocity))
         if len(self.trail) > 100:
             self.trail.pop(0)
 
@@ -83,8 +83,8 @@ class BasicCar:
         dest = tuple(np.subtract((self.x, self.y), self.car_center))
 
         if len(self.trail) > 6:
-            pygame.draw.lines(win, color.BLACK, False, self.trail[: len(self.trail) // 2], width=1)
-            pygame.draw.lines(win, color.BLACK, False, self.trail[len(self.trail) // 2 :], width=10)
+            for i, point in enumerate(self.trail):
+                pygame.draw.circle(win, (color.OFF_WHITE[0] - i * 2,) * 3, point[:-1], radius=min(30, point[-1] / 2))
 
         win.blit(self.rotated_surf, dest)
         if DEBUG:
