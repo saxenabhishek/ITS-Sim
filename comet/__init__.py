@@ -1,5 +1,7 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
+DEBUG = False
+
 
 class color:
     WHITE = (255, 255, 255)
