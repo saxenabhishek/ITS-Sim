@@ -22,6 +22,8 @@ class BasicCar:
         self.velocity = 0
         self.rotational_velocity = 0
 
+        self.trail = [(x, y)]
+
         # todo: extract to func later
         factor = 10
         self.car_surf = pygame.transform.scale(CAR.convert_alpha(), (self.width / factor, self.height / factor))
@@ -60,6 +62,10 @@ class BasicCar:
     def update(self):
         self.rules_on_key_press()
 
+        self.trail.append((self.x, self.y))
+        if len(self.trail) > 100:
+            self.trail.pop(0)
+
         self.angle += self.rotational_velocity
 
         radian = np.radians(self.angle)
@@ -75,7 +81,10 @@ class BasicCar:
 
         dest = tuple(np.subtract((self.x, self.y), self.car_center))
 
-        win.blit(self.rotated_surf, dest)
+        if len(self.trail) > 6:
+            pygame.draw.lines(win, color.BLACK, False, self.trail[: len(self.trail) // 2], width=1)
+            pygame.draw.lines(win, color.BLACK, False, self.trail[len(self.trail) // 2 :], width=10)
 
+        win.blit(self.rotated_surf, dest)
         pygame.draw.circle(win, color.WHITE, (self.x, self.y), radius=1)
         console_stats.add(velocity=self.velocity, rotational_velocity=self.rotational_velocity, angle=self.angle)
