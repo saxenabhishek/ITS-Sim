@@ -67,11 +67,11 @@ class BasicCar:
         self.x += np.sin(radian) * self.velocity
         self.y += np.cos(radian) * self.velocity
 
-        self.rotated_surf = pygame.transform.rotate(self.car_surf, angle=self.angle + 180)
-        self.car_center = self.rotated_surf.get_rect().center  # half of width and height
-
     def draw(self, win: pygame.surface.Surface):
         self.update()
+
+        self.rotated_surf = pygame.transform.rotate(self.car_surf, angle=self.angle + 180)
+        self.car_center = self.rotated_surf.get_rect().center  # half of width and height
 
         dest = tuple(np.subtract((self.x, self.y), self.car_center))
 
