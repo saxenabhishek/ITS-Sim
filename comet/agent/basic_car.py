@@ -69,6 +69,8 @@ class BasicCar:
 
         self.angle += self.angular_velocity
 
+        self.angle %= 360
+
         radian = np.radians(self.angle)
 
         self.x -= np.cos(radian) * self.velocity
