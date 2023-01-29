@@ -35,7 +35,7 @@ class BasicCar:
             acceleration = 2
             if self.velocity > 15:
                 acceleration = 1
-            self.velocity = min(100, self.velocity + acceleration)
+            self.velocity = min(50, self.velocity + acceleration)
 
         if keys_pressed[K_DOWN]:
             if self.velocity > 0:
@@ -53,7 +53,7 @@ class BasicCar:
             self.rotational_velocity *= 0.8
 
         if not keys_pressed[K_UP] and not keys_pressed[K_DOWN] and self.velocity != 0:
-            if self.velocity ** 2 < 0.001:
+            if self.velocity**2 < 0.01:
                 self.velocity = 0
             self.velocity *= 0.95
 
