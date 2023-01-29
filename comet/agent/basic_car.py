@@ -87,5 +87,6 @@ class BasicCar:
             pygame.draw.lines(win, color.BLACK, False, self.trail[len(self.trail) // 2 :], width=10)
 
         win.blit(self.rotated_surf, dest)
-        pygame.draw.circle(win, color.WHITE, (self.x, self.y), radius=1)
-        console_stats.add(velocity=self.velocity, rotational_velocity=self.rotational_velocity, angle=self.angle)
+        if DEBUG:
+            pygame.draw.circle(win, color.RED, (self.x, self.y), radius=1)
+        console_stats.add(velocity=self.velocity, rotational_velocity=self.angular_velocity, angle=self.angle)
