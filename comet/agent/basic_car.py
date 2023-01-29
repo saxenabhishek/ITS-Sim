@@ -31,7 +31,8 @@ class BasicCar:
 
         self.rotated_surf = self.car_surf.copy()
 
-    def rules_on_key_press(self):
+    def rules(self):
+
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_UP]:
             acceleration = 2
@@ -60,7 +61,7 @@ class BasicCar:
             self.velocity *= 0.95
 
     def update(self):
-        self.rules_on_key_press()
+        self.rules()
 
         self.trail.append((self.x, self.y))
         if len(self.trail) > 100:
