@@ -3,7 +3,7 @@ import pygame
 import numpy as np
 
 from pygame import K_UP, K_DOWN, K_LEFT, K_RIGHT
-from comet import color
+from comet import color, DEBUG
 from comet.utils import console_stats
 
 CAR = pygame.image.load("comet/asset/car.png")
@@ -13,7 +13,7 @@ class BasicCar:
     width = CAR.get_width()
     height = CAR.get_height()
 
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
         self.angle = 0
@@ -25,14 +25,13 @@ class BasicCar:
         self.trail = [(x, y, 1)]
 
         # todo: extract to func later
-        factor = 10
+        factor = 15
         self.car_surf = pygame.transform.scale(CAR.convert_alpha(), (self.width / factor, self.height / factor))
         self.car_center = self.car_surf.get_rect().center
 
         self.rotated_surf = self.car_surf.copy()
 
     def rules(self):
-
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_UP]:
             acceleration = 2
