@@ -46,10 +46,10 @@ class BasicCar:
             else:
                 self.velocity = max(-10, self.velocity - 2)
 
-        if keys_pressed[K_LEFT] and int(self.velocity) != 0:
+        if keys_pressed[K_RIGHT] and int(self.velocity) != 0:
             self.angular_velocity = min(8, self.angular_velocity + 1)
 
-        if keys_pressed[K_RIGHT] and self.velocity != 0:
+        if keys_pressed[K_LEFT] and self.velocity != 0:
             self.angular_velocity = max(-8, self.angular_velocity - 1)
 
         if not keys_pressed[K_LEFT] and not keys_pressed[K_RIGHT] and self.angular_velocity != 0:
@@ -71,13 +71,14 @@ class BasicCar:
 
         radian = np.radians(self.angle)
 
-        self.x += np.sin(radian) * self.velocity
-        self.y += np.cos(radian) * self.velocity
+        self.x -= np.cos(radian) * self.velocity
+        self.y -= np.sin(radian) * self.velocity
 
     def draw(self, win: pygame.surface.Surface):
         self.update()
 
-        self.rotated_surf = pygame.transform.rotate(self.car_surf, angle=self.angle + 180)
+        # +90 is to account for the image being rotated 90 degrees
+        self.rotated_surf = pygame.transform.rotate(self.car_surf, angle=-(self.angle) + 90)
         self.car_center = self.rotated_surf.get_rect().center  # half of width and height
 
         dest = tuple(np.subtract((self.x, self.y), self.car_center))
