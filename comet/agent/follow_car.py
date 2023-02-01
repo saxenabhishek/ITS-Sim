@@ -2,7 +2,7 @@ import numpy as np
 import pygame
 
 from comet.agent.basic_car import BasicCar
-from comet.utils import console_stats
+from comet.utils import stats
 from comet import DEBUG
 
 

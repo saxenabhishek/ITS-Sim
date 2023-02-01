@@ -4,7 +4,7 @@ import numpy as np
 
 from pygame import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from comet import color, DEBUG
-from comet.utils import console_stats
+from comet.utils import stats
 
 CAR = pygame.image.load("comet/asset/car.png")
 
@@ -91,4 +91,4 @@ class BasicCar:
         win.blit(self.rotated_surf, dest)
         if DEBUG:
             pygame.draw.circle(win, color.RED, (self.x, self.y), radius=1)
-        console_stats.add(velocity=self.velocity, rotational_velocity=self.angular_velocity, angle=self.angle)
+        stats.add(velocity=self.velocity, angular_velocity=self.angular_velocity, angle=self.angle)

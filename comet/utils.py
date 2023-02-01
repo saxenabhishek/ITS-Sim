@@ -1,3 +1,6 @@
+from comet import default_font
+
+
 class stats:
     config = {}
 
@@ -18,6 +21,13 @@ class stats:
                 message.append(f"{k}:{v}")
         message = "   ".join(message)
         return message
+
+
+class WindowPrinter(stats):
+    @classmethod
+    def write(cls, WIN) -> None:
+        text = default_font.render(cls.generate_message(), True, (10,) * 3)
+        WIN.blit(text, (0, 0))
 
 
 class ConsolePrinter(stats):
