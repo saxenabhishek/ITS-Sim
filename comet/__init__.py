@@ -1,3 +1,8 @@
+import pygame
+
+pygame.init()
+default_font = pygame.font.SysFont("CO59", 32)
+
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
 DEBUG = False
