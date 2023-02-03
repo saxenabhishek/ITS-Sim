@@ -1,4 +1,4 @@
-from comet import default_font
+from comet import default_font, Color
 
 
 class stats:
@@ -26,8 +26,8 @@ class stats:
 class WindowPrinter(stats):
     @classmethod
     def write(cls, WIN) -> None:
-        text = default_font.render(cls.generate_message(), True, (10,) * 3)
-        WIN.blit(text, (0, 0))
+        text = default_font.render(cls.generate_message(), True, Color.CULTURED)
+        WIN.blit(text, (10, 0))
 
 
 class ConsolePrinter(stats):
