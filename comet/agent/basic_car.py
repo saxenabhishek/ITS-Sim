@@ -75,6 +75,8 @@ class BasicCar:
         self.x -= np.cos(radian) * self.velocity
         self.y -= np.sin(radian) * self.velocity
 
+        stats.add(velocity=self.velocity, angular_velocity=self.angular_velocity, angle=self.angle)
+
     def draw(self, win: pygame.surface.Surface):
         self.update()
 
@@ -84,11 +86,9 @@ class BasicCar:
 
         dest = tuple(np.subtract((self.x, self.y), self.car_center))
 
-        if len(self.trail) > 6:
-            for i, point in enumerate(self.trail):
-                pygame.draw.circle(win, (color.OFF_WHITE[0] - i * 2,) * 3, point[:-1], radius=min(30, point[-1] / 2))
-
         win.blit(self.rotated_surf, dest)
+
         if DEBUG:
-            pygame.draw.circle(win, color.RED, (self.x, self.y), radius=1)
-        stats.add(velocity=self.velocity, angular_velocity=self.angular_velocity, angle=self.angle)
+            for i, point in enumerate(self.trail):
+                pygame.draw.circle(win, Color.CULTURED, point[:-1], radius=min(30, point[-1] / 2))
+            pygame.draw.circle(win, Color.RED, (self.x, self.y), radius=1)
