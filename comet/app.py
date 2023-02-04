@@ -32,7 +32,8 @@ def main():
     x, y = path[0][0]
     car = FollowCar(x, y, target)
     while run:
-        clock.tick(24)
+        clock.tick(30)
+        stats.add(t=pygame.time.get_ticks() / 1000)
 
         for event in pygame.event.get():
             run = False if event.type == pygame.QUIT else True
