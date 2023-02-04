@@ -3,7 +3,7 @@ import pygame
 import numpy as np
 
 from pygame import K_UP, K_DOWN, K_LEFT, K_RIGHT
-from comet import color, DEBUG
+from comet import Color, DEBUG
 from comet.utils import stats
 
 CAR = pygame.image.load("comet/asset/car.png")
@@ -61,7 +61,12 @@ class BasicCar:
                 self.velocity = 0
             self.velocity *= 0.95
 
+        self.angle += self.angular_velocity
+
     def update(self):
+        """Calls rules to determine the value of accelaration and angular_velocity
+        and then updates the position of the car
+        """
         if self.stopped:
             return
 
@@ -71,7 +76,6 @@ class BasicCar:
         if len(self.trail) > 100:
             self.trail.pop(0)
 
-        self.angle += self.angular_velocity
         self.angle %= 360
 
         self.velocity += self.accelaration
