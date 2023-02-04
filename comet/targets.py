@@ -1,13 +1,24 @@
 import numpy as np
 import pygame
-from comet import Color
+from comet.city import City
 
 
 class Tracker:
-    def __init__(self, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
+    def __init__(self, x_target: int, y_target: int) -> None:
+        """
+        Data store, personal to each CAR, will track anything that needs to be recorded
+        An extension of the Basic car itself under a sub class
+        :param x: x coordinate of the car
+        :type x: int
+        :param y: y coordinate of the car
+        :type y: int
+        """
+        self.x = x_target
+        self.y = y_target
         self.step = 0
+        self.end_time = -1
+        self.distance = 0.0
+        self.start_time = City.time_rn()
 
 
 class Path:
@@ -17,6 +28,10 @@ class Path:
         self.origin_y = coordinates[0][1]  # y coordinate of the first point
         self.coordinates = coordinates
 
+        self.total_distance = 0  # in pixels
+        for i in range(1, len(coordinates)):
+            self.total_distance += np.sqrt(np.sum(np.subtract(coordinates[i], coordinates[i - 1]) ** 2, axis=0))
+
     def hasNext(self, step):
         return step + 1 < len(self.coordinates) - 1
 
@@ -24,6 +39,8 @@ class Path:
         target.x, target.y = self.coordinates[target.step]
         target.step += 1
 
+    def end_run(self, target: Tracker):
+        target.end_time = City.time_rn()
     def draw(self, screen):
         pygame.draw.lines(screen, Color.TICKLE_ME_PINK, False, self.coordinates, 5)
 
