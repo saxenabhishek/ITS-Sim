@@ -72,10 +72,6 @@ class BasicCar:
 
         self.rules()
 
-        self.trail.append((self.x, self.y, float(self.velocity)))
-        if len(self.trail) > 100:
-            self.trail.pop(0)
-
         self.angle %= 360
 
         self.velocity += self.accelaration
@@ -85,7 +81,10 @@ class BasicCar:
         self.x -= np.cos(radian) * self.velocity
         self.y -= np.sin(radian) * self.velocity
 
-        stats.add(velocity=self.velocity, angular_velocity=self.angular_velocity, angle=self.angle)
+        if DEBUG:
+            self.trail.append((self.x, self.y, float(self.velocity)))
+            if len(self.trail) > 100:
+                self.trail.pop(0)
 
     def draw(self, win: pygame.surface.Surface):
         self.update()
