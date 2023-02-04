@@ -23,8 +23,7 @@ class FollowCar(BasicCar):
         self.target = Tracker(path.origin_x, path.origin_y)
 
     def rules(self):
-        distance = np.sqrt(np.sum(np.subtract((self.x, self.y), (self.target.x, self.target.y)) ** 2, axis=0))
-        desired_angle = 57.2958 * np.arctan2(self.y - self.target.y, self.x - self.target.x)
+        desired_angle = self._angle_to_target()
 
         self.accelaration = self.MAX_ACCELERATION * (1 - (self.velocity / 5) ** 4)
 
@@ -42,6 +41,9 @@ class FollowCar(BasicCar):
                 self.path.update(self.target)
             else:
                 self.stopped = True
+
+    def _distance_to_target(self):
+        return np.sqrt(np.sum(np.subtract((self.x, self.y), (self.target.x, self.target.y)) ** 2, axis=0))
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
