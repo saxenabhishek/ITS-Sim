@@ -37,7 +37,7 @@ class Path:
             self.total_distance += np.sqrt(np.sum(np.subtract(coordinates[i], coordinates[i - 1]) ** 2, axis=0))
 
     def hasNext(self, step):
-        return step + 1 < len(self.coordinates) - 1
+        return step < len(self.coordinates)
 
     def update(self, target: Tracker):
         target.x, target.y = self.coordinates[target.step]
