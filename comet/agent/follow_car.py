@@ -36,7 +36,10 @@ class FollowCar(BasicCar):
         else:
             self.angle -= self.angular_velocity
 
-        if distance < 30:
+        self._update_target_tracker()
+
+    def _update_target_tracker(self):
+        if self._distance_to_target() < 30:
             if self.path.hasNext(self.target.step):
                 self.path.update(self.target)
             else:
