@@ -9,7 +9,7 @@ from comet.targets import Tracker, Path
 class FollowCar(BasicCar):
     MAX_ACCELERATION = 0.05
 
-    def __init__(self, x, y, target):
+    def __init__(self, x: int, y: int, path: Path):
         """
         Car that follows a target with constat velocity and constatn angular acceleration
         :param x: x coordinate
@@ -64,7 +64,7 @@ class FollowCar(BasicCar):
 
     def reset(self):
         # assuming target reset is called first
-        self.target = Target(self.path.origin_x, self.path.origin_y)
+        self.target = Tracker(self.path.origin_x, self.path.origin_y)
         self.x = self.target.x
         self.y = self.target.y
 
