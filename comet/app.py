@@ -41,10 +41,8 @@ def main():
 
         # reset sprites
         if keys_pressed[pygame.K_LSHIFT]:
-            user = BasicCar(200, 100)
-            sprite = FollowCar(random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT), target)
-
-        WIN.fill(color.OFF_WHITE)
+            target.reset()
+            car.reset()
 
         WIN.blit(BACKGROUND, (0, 0))
 
