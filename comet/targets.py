@@ -46,7 +46,13 @@ class Path:
     def end_run(self, target: Tracker):
         target.end_time = City.time_rn()
     def draw(self, screen):
-        pygame.draw.lines(screen, Color.TICKLE_ME_PINK, False, self.coordinates, 5)
+        pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 3)
+        if DEBUG:
+            colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
+            i = 0
+            while i < len(self.coordinates):
+                pygame.draw.circle(screen, colors[i % len(colors)], self.coordinates[i], 3)
+                i += 1
 
 
 def straight_road(origin, length, angle):
