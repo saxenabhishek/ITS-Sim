@@ -12,6 +12,7 @@ CAR = pygame.image.load("comet/asset/car.png")
 class BasicCar:
     width = CAR.get_width()
     height = CAR.get_height()
+    stopped = False
 
     def __init__(self, x: int, y: int):
         self.x = x
@@ -60,9 +61,12 @@ class BasicCar:
             self.velocity *= 0.95
 
     def update(self):
+        if self.stopped:
+            return
+
         self.rules()
 
-        self.trail.append((self.x, self.y, self.velocity))
+        self.trail.append((self.x, self.y, float(self.velocity)))
         if len(self.trail) > 100:
             self.trail.pop(0)
 
