@@ -2,8 +2,8 @@ import numpy as np
 import pygame
 
 from comet.agent.basic_car import BasicCar
-from comet.utils import stats
-from comet import DEBUG
+from comet import DEBUG, Color
+from comet.targets import Tracker, Path
 
 
 class FollowCar(BasicCar):
@@ -19,7 +19,8 @@ class FollowCar(BasicCar):
         Must be a class with x and y attributes
         """
         super().__init__(x, y)
-        self.target = target
+        self.path = path
+        self.target = Tracker(path.origin_x, path.origin_y)
 
     def rules(self):
         distance = np.sqrt(np.sum(np.subtract((self.x, self.y), (self.target.x, self.target.y)) ** 2, axis=0))
@@ -36,11 +37,15 @@ class FollowCar(BasicCar):
         else:
             self.angle -= self.angular_velocity
 
-        if distance < 30 and not self.target.next():
-            self.stopped = True
+        if distance < 30:
+            if self.path.hasNext(self.target.step):
+                self.path.update(self.target)
+            else:
+                self.stopped = True
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
+            pygame.draw.circle(win, Color.CULTURED, (self.target.x, self.target.y), radius=10)
             base_point = (
                 min(self.x, self.target.x) if self.x < self.target.x else max(self.target.x, self.x),
                 min(self.y, self.target.y) if self.y > self.target.y else max(self.target.y, self.y),
@@ -51,8 +56,10 @@ class FollowCar(BasicCar):
 
     def reset(self):
         # assuming target reset is called first
+        self.target = Target(self.path.origin_x, self.path.origin_y)
         self.x = self.target.x
         self.y = self.target.y
+
         self.velocity = 0
         self.angle = 0
         self.angular_velocity = 0

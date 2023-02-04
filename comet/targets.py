@@ -1,35 +1,31 @@
 import numpy as np
 import pygame
-
-from comet.utils import stats
 from comet import Color
 
 
-class Path:
-    step = 0
+class Tracker:
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+        self.step = 0
 
-    def __init__(self, *coordinates):
-        coordinates = np.concatenate(coordinates)
-        self.x = coordinates[0][0]
-        self.y = coordinates[0][1]
+
+class Path:
+    def __init__(self, *args):
+        coordinates = np.concatenate(args)
+        self.origin_x = coordinates[0][0]  # x coordinate of the first point
+        self.origin_y = coordinates[0][1]  # y coordinate of the first point
         self.coordinates = coordinates
 
-    def next(self):
-        if self.hasNext():
-            self.step += 1
-            self.x, self.y = self.coordinates[self.step]
-            return True
-        return False
+    def hasNext(self, step):
+        return step + 1 < len(self.coordinates) - 1
 
-    def hasNext(self):
-        return self.step + 1 < len(self.coordinates) - 1
+    def update(self, target):
+        target.x, target.y = self.coordinates[target.step]
+        target.step += 1
 
     def draw(self, screen):
         pygame.draw.lines(screen, Color.TICKLE_ME_PINK, False, self.coordinates, 5)
-
-    def reset(self):
-        self.step = -1
-        self.next()
 
 
 def straight_road(origin, length, angle):
