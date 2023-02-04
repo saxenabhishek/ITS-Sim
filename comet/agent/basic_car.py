@@ -12,6 +12,7 @@ CAR = pygame.image.load("comet/asset/car.png")
 class BasicCar:
     width = CAR.get_width()
     height = CAR.get_height()
+    accelaration = 0
     stopped = False
 
     def __init__(self, x: int, y: int):
@@ -71,8 +72,9 @@ class BasicCar:
             self.trail.pop(0)
 
         self.angle += self.angular_velocity
-
         self.angle %= 360
+
+        self.velocity += self.accelaration
 
         radian = np.radians(self.angle)
 
