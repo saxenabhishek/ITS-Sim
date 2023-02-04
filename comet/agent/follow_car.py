@@ -40,10 +40,14 @@ class FollowCar(BasicCar):
         self._update_target_tracker()
 
     def _update_target_tracker(self):
-        if self._distance_to_target() < 30:
-            if self.path.hasNext(self.target.step):
-                self.path.update(self.target)
-            else:
+        """
+        Check if we are close to the current tracker and if so, update the tracker
+        to the next one in the path. If there are no more trackers, stop the car and end the episode
+        """
+        if self._distance_to_target() < 25:
+            self.path.update(self.target)
+            if not self.path.hasNext(self.target.step):
+                self.path.end_run(self.target)
                 self.stopped = True
 
     def _distance_to_target(self):
