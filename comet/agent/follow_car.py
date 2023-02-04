@@ -48,6 +48,9 @@ class FollowCar(BasicCar):
     def _distance_to_target(self):
         return np.sqrt(np.sum(np.subtract((self.x, self.y), (self.target.x, self.target.y)) ** 2, axis=0))
 
+    def _angle_to_target(self):
+        return 57.2958 * np.arctan2(self.y - self.target.y, self.x - self.target.x)
+
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
             pygame.draw.circle(win, Color.CULTURED, (self.target.x, self.target.y), radius=10)
