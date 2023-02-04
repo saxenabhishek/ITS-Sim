@@ -1,5 +1,6 @@
 import numpy as np
 import pygame
+from comet import Color, SCALE, DEBUG
 from comet.city import City
 
 
@@ -45,6 +46,15 @@ class Path:
 
     def end_run(self, target: Tracker):
         target.end_time = City.time_rn()
+        run_time = (target.end_time - target.start_time) / 1000  # in seconds
+        run_time = run_time * 20  # increase game time by 30%
+
+        speed = self.total_distance / run_time * 3.6
+        print(f"Run time: {run_time:5.2f} seconds")
+        print(f"Distance: {target.distance * SCALE:5.2f} Meters ")
+        print(f"Average speed: {speed:5.2f} km/h")
+        print(f"{self.total_distance * SCALE:5.2f} Meters")
+
     def draw(self, screen):
         pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 3)
         if DEBUG:
