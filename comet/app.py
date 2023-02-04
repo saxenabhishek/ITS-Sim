@@ -31,6 +31,9 @@ def main():
     target = Path(*path)
     x, y = path[0][0]
     car = FollowCar(x, y, target)
+    slow_car = FollowCar(x, y, target)
+    slow_car.MAX_ACCELERATION = 0.01
+
     while run:
         clock.tick(30)
         stats.add(t=pygame.time.get_ticks() / 1000)
@@ -42,16 +45,15 @@ def main():
 
         # reset sprites
         if keys_pressed[pygame.K_LSHIFT]:
-            target.reset()
             car.reset()
+            slow_car.reset()
 
         WIN.blit(BACKGROUND, (0, 0))
 
         target.draw(WIN)
         car.draw(WIN)
+        slow_car.draw(WIN)
 
-        if DEBUG:
-            pygame.draw.circle(WIN, Color.CULTURED, (target.x, target.y), radius=10)
         WindowPrinter.write(WIN)
 
         pygame.display.update()
