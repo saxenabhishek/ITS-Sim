@@ -8,6 +8,7 @@ from comet.targets import Tracker, Path
 
 class FollowCar(BasicCar):
     MAX_ACCELERATION = 0.05
+    MAX_VELOCITY = 5.0
 
     def __init__(self, x: int, y: int, path: Path):
         """
@@ -25,7 +26,7 @@ class FollowCar(BasicCar):
     def rules(self):
         desired_angle = self._angle_to_target()
 
-        self.accelaration = self.MAX_ACCELERATION * (1 - (self.velocity / 5) ** 4)
+        self.accelaration = self.MAX_ACCELERATION * (1 - (self.velocity / self.MAX_VELOCITY) ** 4)
 
         angular_acceleration = 0.1 * (1 - (self.angular_velocity / 10) ** 4)
         self.angular_velocity += angular_acceleration
@@ -50,6 +51,10 @@ class FollowCar(BasicCar):
 
     def _angle_to_target(self):
         return 57.2958 * np.arctan2(self.y - self.target.y, self.x - self.target.x)
+
+    def update(self):
+        super().update()
+        self.target.distance += self.velocity
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
