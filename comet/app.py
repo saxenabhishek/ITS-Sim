@@ -1,10 +1,8 @@
 import pygame
-import random
+from comet import SCREEN_HEIGHT, SCREEN_WIDTH, Color, DEBUG
+from comet.agent import FollowCar, Path, straight_road
+from comet.utils import WindowPrinter, stats
 
-from comet import SCREEN_HEIGHT, SCREEN_WIDTH, color
-from comet.agent.basic_car import BasicCar
-from comet.agent.follow_car import FollowCar
-from comet.utils import console_stats
 
 WIN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -13,16 +11,26 @@ run = True
 BACKGROUND = pygame.image.load("comet/asset/bck.jpg")
 BACKGROUND = pygame.transform.scale(BACKGROUND, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-class FollowTarget:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
 
 def main():
+    """
+    Main loop
+    """
     global run
-    target = FollowTarget(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-    sprite = FollowCar(100, 100, target)
-    user = BasicCar(100, 100)
+
+    # sharp turn path
+    origin = (SCREEN_WIDTH / 3, 100)
+    path = []
+    for i in range(10):
+        path.append(straight_road(origin, 5, 10 * i))
+        origin = path[-1][-1]
+    for i in range(10):
+        path.append(straight_road(origin, 5, 10 * -i))
+        origin = path[-1][-1]
+
+    target = Path(*path)
+    x, y = path[0][0]
+    car = FollowCar(x, y, target)
     while run:
         clock.tick(24)
 
@@ -40,7 +48,8 @@ def main():
 
         WIN.blit(BACKGROUND, (0, 0))
 
-        pygame.draw.circle(WIN, color.RED, (target.x, target.y), radius=10)
+        target.draw(WIN)
+        car.draw(WIN)
 
         console_stats.write()
 
