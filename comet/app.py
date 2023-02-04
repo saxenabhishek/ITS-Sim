@@ -51,6 +51,7 @@ def main():
 
         if DEBUG:
             pygame.draw.circle(WIN, Color.CULTURED, (target.x, target.y), radius=10)
+        WindowPrinter.write(WIN)
 
         pygame.display.update()
     pygame.quit()
