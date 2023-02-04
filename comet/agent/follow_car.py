@@ -47,3 +47,12 @@ class FollowCar(BasicCar):
             pygame.draw.line(win, (200, 100, 100), (self.x, self.y), (self.target.x, self.target.y))
             pygame.draw.circle(win, (200, 100, 100), base_point, 10)
         return super().draw(win)
+
+    def reset(self):
+        # assuming target reset is called first
+        self.x = self.target.x
+        self.y = self.target.y
+        self.velocity = 0
+        self.angle = 0
+        self.angular_velocity = 0
+        self.stopped = False
