@@ -23,6 +23,10 @@ class Tracker:
 
 class Path:
     def __init__(self, *args):
+        """
+        Path is a collection of coordinates that any number of cars will follow
+        keeps track of the navigation of the cars and updates their Trackers as required
+        """
         coordinates = np.concatenate(args)
         self.origin_x = coordinates[0][0]  # x coordinate of the first point
         self.origin_y = coordinates[0][1]  # y coordinate of the first point
@@ -35,7 +39,7 @@ class Path:
     def hasNext(self, step):
         return step + 1 < len(self.coordinates) - 1
 
-    def update(self, target):
+    def update(self, target: Tracker):
         target.x, target.y = self.coordinates[target.step]
         target.step += 1
 
