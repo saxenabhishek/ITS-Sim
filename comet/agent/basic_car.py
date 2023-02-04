@@ -22,7 +22,7 @@ class BasicCar:
         self.velocity = 0
         self.angular_velocity = 0
 
-        self.trail = [(x, y, 1)]
+        self.trail = [(x, y, 1.0)]
 
         # todo: extract to func later
         factor = 15
