@@ -29,8 +29,8 @@ class Path:
 
 
 def straight_road(origin, length, angle):
-    step = 10
-    line = np.arange(2, step * length, step, dtype=np.int32)
+    step = 20
+    line = np.arange(1, step * length, step, dtype=np.int32) + step
     x = (line * np.cos(np.radians(angle))) + origin[0]
     y = (line * np.sin(np.radians(angle))) + origin[1]
     return np.array([x, y]).T
