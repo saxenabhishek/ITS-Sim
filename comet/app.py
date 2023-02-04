@@ -49,7 +49,8 @@ def main():
         target.draw(WIN)
         car.draw(WIN)
 
-        console_stats.write()
+        if DEBUG:
+            pygame.draw.circle(WIN, Color.CULTURED, (target.x, target.y), radius=10)
 
         pygame.display.update()
     pygame.quit()
