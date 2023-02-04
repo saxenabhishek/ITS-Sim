@@ -10,6 +10,8 @@ WIN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 run = True
 
+BACKGROUND = pygame.image.load("comet/asset/bck.jpg")
+BACKGROUND = pygame.transform.scale(BACKGROUND, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 class FollowTarget:
     def __init__(self, x, y):
@@ -36,8 +38,7 @@ def main():
 
         WIN.fill(color.OFF_WHITE)
 
-        sprite.draw(WIN)
-        user.draw(WIN)
+        WIN.blit(BACKGROUND, (0, 0))
 
         pygame.draw.circle(WIN, color.RED, (target.x, target.y), radius=10)
 
