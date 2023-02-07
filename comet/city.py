@@ -13,42 +13,43 @@ class City:
     time_rn = pygame.time.get_ticks()
     INSERTION_TIME = 1000
     INSERT_EVENT = pygame.USEREVENT + 1
+    total_cars = 0
 
     def __init__(self) -> None:
         """
         Create paths, creat cars, give cars next instruction
 
         """
-        self.paths: List[Path] = []
-        self.cars: List[IDMCar] = []
+
+        self.roads: List[dict] = []
         self.trackers: List[Tracker] = []
         self.time = 0
         pygame.time.set_timer(City.INSERT_EVENT, City.INSERTION_TIME)
 
     def add_path(self, road: Path):
-        self.paths.append(road)
+        self.total_cars = 1
         newcar = IDMCar(*road.start, road)
-        newcar.target.start_time = pygame.time.get_ticks()
-        self.cars.append(newcar)
+        newcar.tracker.start_time = pygame.time.get_ticks()
+        self.roads.append({"road": road, "cars": [newcar]})
 
     def consume_car_event(self):
-        for path in self.paths:
+        for road in self.roads:
+            self.total_cars += 1
+            path: Path = road["road"]
             newcar = IDMCar(*path.start, path)
-            newcar.target.start_time = pygame.time.get_ticks()
-            self.cars.append(newcar)
+            newcar.tracker.start_time = pygame.time.get_ticks()
+            road["cars"].append(newcar)
 
     def draw_agents(self, win):
-        for path in self.paths:
-            path.draw(win)
+        for road in self.roads:
+            road["road"].draw(win)
+            for car in road["cars"]:
+                if car.tracker.ended:
+                    self.trackers.append(car.tracker)
+                    road["cars"].remove(car)
+                car.draw(win)
 
-        for car in self.cars:
-            if car.target.ended:
-                self.trackers.append(car.target)
-                self.cars.remove(car)
-
-            car.draw(win)
-
-        stats.add(cars=len(self.cars), paths=len(self.paths), Tracker=len(self.trackers))
+        stats.add(cars=self.total_cars, paths=len(self.roads), Tracker=len(self.trackers))
 
     def process_trackers(self):
         """add them to CSV file"""
