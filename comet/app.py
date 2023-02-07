@@ -19,12 +19,8 @@ def main():
     global run
 
     city = City()
-
-    path = [straight_road((SCREEN_WIDTH / 5, 100), 10, 0)]
-    for i in range(1, 6):
-        path.append(straight_road(path[-1][-1], 10, 60 * i))
-
-    city.add_path(Path(*path))
+    city.add_path(Path(straight_road((SCREEN_WIDTH / 7, 100), 50, 0)))
+    city.add_path(Path(straight_road((6 * SCREEN_WIDTH / 7, 200), 50, -180)))
 
     while run:
         clock.tick(FPS)
