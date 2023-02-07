@@ -1,5 +1,7 @@
 import pygame
 from comet import SCREEN_HEIGHT, SCREEN_WIDTH, Color, DEBUG, FPS
+from comet.agent import IDMCar
+from comet.targets import Path, straight_road
 from comet.utils import WindowPrinter, stats
 
 
@@ -18,20 +20,18 @@ def main():
     global run
 
     # sharp turn path
-    origin = (SCREEN_WIDTH / 3, 100)
-    path = []
-    for i in range(10):
-        path.append(straight_road(origin, 5, 10 * i))
-        origin = path[-1][-1]
-    for i in range(10):
-        path.append(straight_road(origin, 5, 10 * -i))
-        origin = path[-1][-1]
+    origin = (SCREEN_WIDTH / 5, 100)
+    path = [straight_road(origin, 10, 0)]
+    for i in range(1, 6):
+        path.append(straight_road(path[-1][-1], 10, 50 * i))
 
     target = Path(*path)
     x, y = path[0][0]
-    car = FollowCar(x, y, target)
-    slow_car = FollowCar(x, y, target)
-    slow_car.MAX_ACCELERATION = 0.01
+    car = IDMCar(x, y, target)
+    slow_car = IDMCar(x, y, target)
+
+    slow_car.MAX_ACCELERATION = 0.5
+    slow_car.MAX_VELOCITY = 10.0
 
     while run:
         clock.tick(FPS)
