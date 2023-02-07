@@ -51,10 +51,13 @@ class FollowCar(BasicCar):
                 self.stopped = True
 
     def _distance_to_target(self):
-        return np.sqrt(np.sum(np.subtract((self.x, self.y), (self.target.x, self.target.y)) ** 2, axis=0))
+        return self._euclidean_distance_to_(self.tracker.target_x, self.tracker.target_y)
+
+    def _euclidean_distance_to_(self, x, y):
+        return np.sqrt(np.sum(np.subtract((self.x, self.y), (x, y)) ** 2, axis=0))
 
     def _angle_to_target(self):
-        return 57.2958 * np.arctan2(self.y - self.target.y, self.x - self.target.x)
+        return 57.2958 * np.arctan2(self.y - self.tracker.target_y, self.x - self.tracker.target_x)
 
     def update(self):
         super().update()
