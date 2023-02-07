@@ -13,15 +13,19 @@ class Tracker:
         :param y: y coordinate of the car
         :type y: int
         """
-        self.x = x_target
-        self.y = y_target
+        self.x = 0
+        self.y = 0
+        self.target_x = x_target
+        self.target_y = y_target
         self.ended = False
         self.step = 0
         self.end_time = -1
         self.distance = 0.0
         self.start_time = 0.1
+
         self.run_time = 0.0
         self.avg_speed = 0.0
+        self.road_length = 0.0
 
 
 class Path:
@@ -43,16 +47,19 @@ class Path:
     def hasNext(self, step):
         return step < len(self.coordinates)
 
-    def update(self, target: Tracker):
-        target.x, target.y = self.coordinates[target.step]
-        target.step += 1
+    def update(self, tracker: Tracker):
+        tracker.target_x, tracker.target_y = self.coordinates[tracker.step]
+        tracker.step += 1
 
-    def end_run(self, target: Tracker):
-        target.end_time = pygame.time.get_ticks()
-        target.ended = True
-        run_time = (target.end_time - target.start_time) / 1000  # in seconds
-        target.run_time = run_time * 20  # increase game time by 20%
-        target.avg_speed = self.total_distance / run_time * 3.6  # in km/h
+    def end_run(self, tracker: Tracker):
+        tracker.end_time = pygame.time.get_ticks()
+        tracker.ended = True
+        run_time = (tracker.end_time - tracker.start_time) / 1000  # in seconds
+        tracker.run_time = run_time * 2  # increase game time by 20%
+        tracker.distance = tracker.distance * SCALE
+
+        tracker.avg_speed = tracker.distance / tracker.run_time
+        tracker.road_length = self.total_distance * SCALE
 
     def draw(self, screen):
         pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 3)

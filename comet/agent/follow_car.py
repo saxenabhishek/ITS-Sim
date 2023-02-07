@@ -21,7 +21,7 @@ class FollowCar(BasicCar):
         """
         super().__init__(x, y)
         self.path = path
-        self.target = Tracker(path.origin_x, path.origin_y)
+        self.tracker = Tracker(path.origin_x, path.origin_y)
 
     def rules(self):
         desired_angle = self._angle_to_target()
@@ -45,9 +45,9 @@ class FollowCar(BasicCar):
         to the next one in the path. If there are no more trackers, stop the car and end the episode
         """
         if self._distance_to_target() < 25:
-            self.path.update(self.target)
-            if not self.path.hasNext(self.target.step):
-                self.path.end_run(self.target)
+            self.path.update(self.tracker)
+            if not self.path.hasNext(self.tracker.step):
+                self.path.end_run(self.tracker)
                 self.stopped = True
 
     def _distance_to_target(self):
@@ -58,24 +58,30 @@ class FollowCar(BasicCar):
 
     def update(self):
         super().update()
-        self.target.distance += self.velocity
+        self.tracker.distance += self.velocity
+        self.tracker.x = self.x
+        self.tracker.y = self.y
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
-            pygame.draw.circle(win, Color.CULTURED, (self.target.x, self.target.y), radius=10)
+            pygame.draw.circle(win, Color.CULTURED, (self.tracker.target_x, self.tracker.target_y), radius=10)
             base_point = (
-                min(self.x, self.target.x) if self.x < self.target.x else max(self.target.x, self.x),
-                min(self.y, self.target.y) if self.y > self.target.y else max(self.target.y, self.y),
+                min(self.x, self.tracker.target_x)
+                if self.x < self.tracker.target_x
+                else max(self.tracker.target_x, self.x),
+                min(self.y, self.tracker.target_y)
+                if self.y > self.tracker.target_y
+                else max(self.tracker.target_y, self.y),
             )
-            pygame.draw.line(win, (200, 100, 100), (self.x, self.y), (self.target.x, self.target.y))
+            pygame.draw.line(win, (200, 100, 100), (self.x, self.y), (self.tracker.target_x, self.tracker.target_y))
             pygame.draw.circle(win, (200, 100, 100), base_point, 10)
         return super().draw(win)
 
     def reset(self):
         # assuming target reset is called first
-        self.target = Tracker(self.path.origin_x, self.path.origin_y)
-        self.x = self.target.x
-        self.y = self.target.y
+        self.tracker = Tracker(self.path.origin_x, self.path.origin_y)
+        self.x = self.tracker.target_x
+        self.y = self.tracker.target_y
 
         self.velocity = 0
         self.angle = 0
