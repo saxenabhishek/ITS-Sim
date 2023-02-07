@@ -1,6 +1,5 @@
 import pygame
-from comet import SCREEN_HEIGHT, SCREEN_WIDTH, Color, DEBUG
-from comet.agent import FollowCar, Path, straight_road
+from comet import SCREEN_HEIGHT, SCREEN_WIDTH, Color, DEBUG, FPS
 from comet.utils import WindowPrinter, stats
 
 
@@ -35,8 +34,8 @@ def main():
     slow_car.MAX_ACCELERATION = 0.01
 
     while run:
-        clock.tick(30)
-        stats.add(t=pygame.time.get_ticks() / 1000)
+        clock.tick(FPS)
+        stats.add(t=pygame.time.get_ticks() / 1000)  # time in seconds
 
         for event in pygame.event.get():
             run = False if event.type == pygame.QUIT else True

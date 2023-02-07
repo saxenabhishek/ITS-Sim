@@ -7,8 +7,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 
 SCALE = 0.1  # meters/pixel
 
-DEBUG = False
-FPS = 30
+FPS = 120
 
 
 class Color:
