@@ -19,19 +19,13 @@ def main():
     """
     global run
 
-    # sharp turn path
-    origin = (SCREEN_WIDTH / 5, 100)
-    path = [straight_road(origin, 10, 0)]
+    city = City()
+
+    path = [straight_road((SCREEN_WIDTH / 5, 100), 10, 0)]
     for i in range(1, 6):
-        path.append(straight_road(path[-1][-1], 10, 50 * i))
+        path.append(straight_road(path[-1][-1], 10, 60 * i))
 
-    target = Path(*path)
-    x, y = path[0][0]
-    car = IDMCar(x, y, target)
-    slow_car = IDMCar(x, y, target)
-
-    slow_car.MAX_ACCELERATION = 0.5
-    slow_car.MAX_VELOCITY = 10.0
+    city.add_path(Path(*path))
 
     while run:
         clock.tick(FPS)
@@ -44,14 +38,11 @@ def main():
 
         # reset sprites
         if keys_pressed[pygame.K_LSHIFT]:
-            car.reset()
-            slow_car.reset()
+            city.reset()
 
         WIN.blit(BACKGROUND, (0, 0))
 
-        target.draw(WIN)
-        car.draw(WIN)
-        slow_car.draw(WIN)
+        city.draw_agents(WIN)
 
         WindowPrinter.write(WIN)
 
