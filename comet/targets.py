@@ -74,6 +74,15 @@ class Path:
 def straight_road(origin, length, angle):
     step = 20
     line = np.arange(1, step * length, step, dtype=np.int32) + step
-    x = (line * np.cos(np.radians(angle))) + origin[0]
-    y = (line * np.sin(np.radians(angle))) + origin[1]
+
+def circle_segment_road(origin, radius, angle, offset=0):
+    step = 20
+    start, end = offset, offset + angle
+
+    angle_values = np.arange(start, end, step, dtype=np.int32)
+    x = radius * np.cos(np.radians(angle_values))
+    y = radius * np.sin(np.radians(angle_values))
+    x -= x[0]
+    y -= y[0]
+
     return np.array([x, y]).T
