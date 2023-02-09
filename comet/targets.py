@@ -22,6 +22,7 @@ class Tracker:
         self.end_time = -1
         self.distance = 0.0
         self.start_time = 0.1
+        self.velocity = 0.0
 
         self.run_time = 0.0
         self.avg_speed = 0.0

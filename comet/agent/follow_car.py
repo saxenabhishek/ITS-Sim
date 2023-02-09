@@ -64,6 +64,7 @@ class FollowCar(BasicCar):
         self.tracker.distance += self.velocity
         self.tracker.x = self.x
         self.tracker.y = self.y
+        self.tracker.velocity = self.velocity
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
