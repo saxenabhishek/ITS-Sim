@@ -21,7 +21,7 @@ def main():
     city = City()
     city.add_path(Path(straight_road((SCREEN_WIDTH / 7, 100), 50, 0)))
     city.add_path(Path(straight_road((6 * SCREEN_WIDTH / 7, 200), 50, -180)))
-
+    city.add_path(Path(circle_segment_road((SCREEN_WIDTH / 2, 300), 200, 90, 180)))
     while run:
         clock.tick(FPS)
         stats.add(t=pygame.time.get_ticks() / 1000)  # time in seconds
