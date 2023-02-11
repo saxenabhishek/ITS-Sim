@@ -30,12 +30,18 @@ class Tracker:
 
 
 class Path:
-    def __init__(self, *args):
+    def __init__(self, origin, *args):
         """
         Path is a collection of coordinates that any number of cars will follow
         keeps track of the navigation of the cars and updates their Trackers as required
         """
-        coordinates = np.concatenate(args)
+        segments = []
+        for arg in args:
+            arg = np.add(arg, origin)
+            origin = arg[-1]
+            segments.append(arg)
+
+        coordinates = np.concatenate(segments)
         self.origin_x = coordinates[0][0]  # x coordinate of the first point
         self.origin_y = coordinates[0][1]  # y coordinate of the first point
         self.start = (self.origin_x, self.origin_y)
@@ -72,12 +78,16 @@ class Path:
                 i += 1
 
 
-def straight_road(origin, length, angle):
-    step = 20
-    line = np.arange(1, step * length, step, dtype=np.int32) + step
+def straight_road(length, angle):
+    step = 50
+    line = np.arange(1, length, step, dtype=np.int32)
+    x = line * np.cos(np.radians(angle))
+    y = line * np.sin(np.radians(angle))
+    return np.array([x, y]).T
 
-def circle_segment_road(origin, radius, angle, offset=0):
-    step = 20
+
+def circle_segment_road(radius, angle, offset=0):
+    step = 10
     start, end = offset, offset + angle
 
     angle_values = np.arange(start, end, step, dtype=np.int32)
