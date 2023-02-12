@@ -30,13 +30,13 @@ class City:
     def add_path(self, road: Path):
         self.paths.append(road)
         newcar = IDMCar(*road.start, road)
-        newcar.target.start_time = pygame.time.get_ticks()
+        newcar.tracker.start_time = pygame.time.get_ticks()
         self.cars.append(newcar)
 
     def consume_car_event(self):
         for path in self.paths:
             newcar = IDMCar(*path.start, path)
-            newcar.target.start_time = pygame.time.get_ticks()
+            newcar.tracker.start_time = pygame.time.get_ticks()
             self.cars.append(newcar)
 
     def draw_agents(self, win):
