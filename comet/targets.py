@@ -77,6 +77,8 @@ class Path:
             colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
             i = 0
             while i < len(self.coordinates):
+                text = default_font.render(str(i), True, Color.WHITE, Color.BLACK)
+                screen.blit(text, self.coordinates[i])
                 pygame.draw.circle(screen, colors[i % len(colors)], self.coordinates[i], 3)
                 i += 1
 
