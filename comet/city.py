@@ -35,6 +35,8 @@ class City:
 
     def consume_car_event(self):
         for path in self.paths:
+            if any([car.rotated_car_rect.collidepoint(path.start) for car in self.cars]):
+                continue
             newcar = IDMCar(*path.start, path)
             newcar.tracker.start_time = pygame.time.get_ticks()
             self.cars.append(newcar)
