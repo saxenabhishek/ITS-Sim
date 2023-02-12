@@ -44,8 +44,10 @@ class City:
             path.draw(win)
 
         for car in self.cars:
-            if car.target.ended:
-                self.trackers.append(car.target)
+            if car.tracker.ended:
+                car.tracker.__dict__.update(car.__dict__)
+                self.trackers.append(car.tracker)
+
                 self.cars.remove(car)
 
             line = np.arange(car.height / 2 - 1, 200, car.height / 2, dtype=np.int32)
@@ -72,8 +74,11 @@ class City:
 
     def process_trackers(self):
         """add them to CSV file"""
+
         df = pd.DataFrame([tracker.__dict__ for tracker in self.trackers])
-        print(df)
+        df.drop(columns=["path", "next_car_tracker", "ended", "target_x", "target_y", "tracker"], inplace=True)
+        print(df.columns)
+
         self.trackers.clear()
 
     def reset(self):
