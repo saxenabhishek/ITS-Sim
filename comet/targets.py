@@ -47,6 +47,8 @@ class Path:
         self.start = (self.origin_x, self.origin_y)
         self.coordinates = coordinates
 
+        self.stop_area = len(coordinates) - 5
+
         self.total_distance = 0  # in pixels
         for i in range(1, len(coordinates)):
             self.total_distance += np.sqrt(np.sum(np.subtract(coordinates[i], coordinates[i - 1]) ** 2, axis=0))
@@ -69,7 +71,8 @@ class Path:
         tracker.road_length = self.total_distance * SCALE
 
     def draw(self, screen):
-        pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 3)
+        pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 10)
+        pygame.draw.circle(screen, Color.RED, self.coordinates[self.stop_area], 10)
         if DEBUG:
             colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
             i = 0
