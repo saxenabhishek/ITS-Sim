@@ -19,9 +19,34 @@ def main():
     global run
 
     city = City()
-    city.add_path(Path(straight_road((SCREEN_WIDTH / 7, 100), 50, 0)))
-    city.add_path(Path(straight_road((6 * SCREEN_WIDTH / 7, 200), 50, -180)))
-    city.add_path(Path(circle_segment_road((SCREEN_WIDTH / 2, 300), 200, 90, 180)))
+
+    city.add_path(
+        Path(
+            (0, SCREEN_HEIGHT / 2 - 10),
+            straight_road(SCREEN_WIDTH, 0),
+        )
+    )
+
+    city.add_path(
+        Path(
+            (SCREEN_WIDTH, SCREEN_HEIGHT / 2 + 10),
+            straight_road(SCREEN_WIDTH, 180),
+        )
+    )
+
+    city.add_path(
+        Path(
+            (SCREEN_WIDTH / 2 + 10, 0),
+            straight_road(SCREEN_HEIGHT, 90),
+        )
+    )
+
+    city.add_path(
+        Path(
+            (SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT),
+            straight_road(SCREEN_HEIGHT, 360 - 90),
+        )
+    )
     while run:
         clock.tick(FPS)
         stats.add(t=pygame.time.get_ticks() / 1000)  # time in seconds
