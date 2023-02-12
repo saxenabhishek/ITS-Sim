@@ -54,7 +54,9 @@ class FollowCar(BasicCar):
         return self._euclidean_distance_to_(self.tracker.target_x, self.tracker.target_y)
 
     def _euclidean_distance_to_(self, x, y):
-        return np.sqrt(np.sum(np.subtract((self.x, self.y), (x, y)) ** 2, axis=0))
+        subtracted_points = np.subtract((self.x, self.y), (x, y))
+        power = np.power(subtracted_points, 2)
+        return np.sqrt(np.sum(power, axis=0))
 
     def _angle_to_target(self):
         return 57.2958 * np.arctan2(self.y - self.tracker.target_y, self.x - self.tracker.target_x)
