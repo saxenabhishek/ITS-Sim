@@ -32,6 +32,7 @@ class BasicCar:
         self.car_center = self.car_surf.get_rect().center
 
         self.rotated_surf = self.car_surf.copy()
+        self.rotated_car_rect = self.rotated_surf.get_rect()
 
     def rules(self):
         keys_pressed = pygame.key.get_pressed()
@@ -96,13 +97,12 @@ class BasicCar:
 
         # +90 is to account for the image being rotated 90 degrees
         self.rotated_surf = pygame.transform.rotate(self.car_surf, angle=-(self.angle) + 90)
-        self.car_center = self.rotated_surf.get_rect().center  # half of width and height
+        self.rotated_car_rect = self.rotated_surf.get_rect()
+        self.car_center = self.rotated_car_rect.center  # half of width and height
 
-        dest = tuple(np.subtract((self.x, self.y), self.car_center))
+        self.rotated_car_rect.move_ip(tuple(np.subtract((self.x, self.y), self.car_center)))
 
-        win.blit(self.rotated_surf, dest)
+        win.blit(self.rotated_surf, self.rotated_car_rect)
 
         if DEBUG:
-            for i, point in enumerate(self.trail):
-                pygame.draw.circle(win, Color.CULTURED, point[:-1], radius=min(30, point[-1] / 2))
             pygame.draw.circle(win, Color.RED, (self.x, self.y), radius=1)
