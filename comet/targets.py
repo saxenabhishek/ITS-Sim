@@ -1,6 +1,7 @@
 import numpy as np
 import pygame
 from comet import Color, SCALE, DEBUG
+from comet import default_font
 
 
 class Tracker:
@@ -48,6 +49,7 @@ class Path:
         self.coordinates = coordinates
 
         self.stop_area = len(coordinates) - 5
+        self.red_light_counter = 0
 
         self.total_distance = 0  # in pixels
         for i in range(1, len(coordinates)):
@@ -76,7 +78,11 @@ class Path:
 
     def draw(self, screen):
         pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 10)
-        pygame.draw.circle(screen, Color.RED, self.coordinates[self.stop_area], 10)
+        if self.red_light_counter == 0:
+            clr = Color.GREEN
+        else:
+            clr = Color.RED
+        pygame.draw.line(screen, clr, self.coordinates[self.stop_area], self.coordinates[self.stop_area + 1], 10)
         if DEBUG:
             colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
             i = 0
@@ -88,7 +94,7 @@ class Path:
 
 
 def straight_road(length, angle):
-    step = 50
+    step = 1280 / 26
     line = np.arange(1, length, step, dtype=np.int32)
     x = line * np.cos(np.radians(angle))
     y = line * np.sin(np.radians(angle))
@@ -96,7 +102,7 @@ def straight_road(length, angle):
 
 
 def circle_segment_road(radius, angle, offset=0):
-    step = 10
+    step = 20
     start, end = offset, offset + angle
 
     angle_values = np.arange(start, end, step, dtype=np.int32)

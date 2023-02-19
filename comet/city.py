@@ -9,12 +9,15 @@ from comet.utils import stats
 import pandas as pd
 from typing import List
 import numpy as np
+import time
 
 
 class City:
     time_rn = pygame.time.get_ticks()
-    INSERTION_TIME = 1000
+    INSERTION_TIME = 500
     INSERT_EVENT = pygame.USEREVENT + 1
+    REDLIGHT_TICK = pygame.USEREVENT + 2
+    REDLIGHT_TICK_TIME = 5000
 
     def __init__(self) -> None:
         """
@@ -25,9 +28,12 @@ class City:
         self.cars: List[IDMCar] = []
         self.trackers: List[Tracker] = []
         self.time = 0
-        pygame.time.set_timer(City.INSERT_EVENT, City.INSERTION_TIME)
+        pygame.time.set_timer(City.INSERT_EVENT, City.INSERTION_TIME, loops=0)
+        pygame.time.set_timer(City.REDLIGHT_TICK, City.REDLIGHT_TICK_TIME, loops=0)
 
-    def add_path(self, road: Path):
+    def add_path(self, road: Path, redlight: int = 1):
+        road.stop_area = redlight
+        road.red_light_counter = len(self.paths)
         self.paths.append(road)
         newcar = IDMCar(*road.start, road)
         newcar.tracker.start_time = pygame.time.get_ticks()
@@ -40,6 +46,11 @@ class City:
             newcar = IDMCar(*path.start, path)
             newcar.tracker.start_time = pygame.time.get_ticks()
             self.cars.append(newcar)
+
+    def consume_redlight_event(self):
+        for path in self.paths:
+            path.red_light_counter += 1
+            path.red_light_counter %= len(self.paths)
 
     def draw_agents(self, win):
         for path in self.paths:

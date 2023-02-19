@@ -22,30 +22,34 @@ def main():
 
     city.add_path(
         Path(
-            (0, SCREEN_HEIGHT / 2 - 10),
+            (10, SCREEN_HEIGHT / 2 - 15),
             straight_road(SCREEN_WIDTH, 0),
-        )
+        ),
+        12,
     )
 
     city.add_path(
         Path(
-            (SCREEN_WIDTH, SCREEN_HEIGHT / 2 + 10),
+            (SCREEN_WIDTH, SCREEN_HEIGHT / 2 + 15),
             straight_road(SCREEN_WIDTH, 180),
-        )
+        ),
+        12,
     )
 
     city.add_path(
         Path(
-            (SCREEN_WIDTH / 2 + 10, 0),
-            straight_road(SCREEN_HEIGHT, 90),
-        )
-    )
-
-    city.add_path(
-        Path(
-            (SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT),
+            (SCREEN_WIDTH / 2 - 15, SCREEN_HEIGHT),
             straight_road(SCREEN_HEIGHT, 360 - 90),
-        )
+        ),
+        6,
+    )
+
+    city.add_path(
+        Path(
+            (SCREEN_WIDTH / 2 + 15, 0),
+            straight_road(SCREEN_HEIGHT, 90),
+        ),
+        6,
     )
     while run:
         clock.tick(FPS)
@@ -58,6 +62,8 @@ def main():
             run = False if event.type == pygame.QUIT else True
             if event.type == city.INSERT_EVENT:
                 city.consume_car_event()
+            if event.type == city.REDLIGHT_TICK:
+                city.consume_redlight_event()
 
         keys_pressed = pygame.key.get_pressed()
 
