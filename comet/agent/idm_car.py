@@ -2,6 +2,7 @@ from comet.agent.follow_car import FollowCar
 from comet import SCALE
 from comet.targets import Tracker
 import numpy as np
+import random
 
 
 class IDMCar(FollowCar):
@@ -19,6 +20,8 @@ class IDMCar(FollowCar):
         """
         super().__init__(x, y, target)
         self.next_car_tracker = Tracker(-1, -1)
+        self.MAX_VELOCITY = random.uniform(3, 8)
+        self.MAX_ACCELERATION = random.uniform(0.5, 1.5)
 
     def rules(self):
         s0 = 50  # minimum distance
