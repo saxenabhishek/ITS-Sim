@@ -1,6 +1,6 @@
 import pygame
-from comet import SCREEN_HEIGHT, SCREEN_WIDTH, FPS
-from comet.targets import Path, straight_road
+from comet import SCREEN_HEIGHT, SCREEN_WIDTH, FPS, Color
+from comet.targets import Path, straight_road, circle_segment_road
 from comet.utils import WindowPrinter, stats
 from comet.city import City
 
@@ -71,7 +71,9 @@ def main():
         if keys_pressed[pygame.K_LSHIFT]:
             city.reset()
 
-        WIN.blit(BACKGROUND, (0, 0))
+        # WIN.blit(BACKGROUND, (0, 0))
+
+        WIN.fill(Color.PRUSSIAN_BLUE)
 
         city.draw_agents(WIN)
 

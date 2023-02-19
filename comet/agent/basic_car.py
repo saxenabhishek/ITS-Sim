@@ -10,8 +10,6 @@ CAR = pygame.image.load("comet/asset/car.png")
 
 
 class BasicCar:
-    width = CAR.get_width()
-    height = CAR.get_height()
     accelaration = 0
     stopped = False
 
@@ -28,7 +26,12 @@ class BasicCar:
 
         # todo: extract to func later
         factor = 15
-        self.car_surf = pygame.transform.scale(CAR.convert_alpha(), (self.width / factor, self.height / factor))
+        self.car_surf = pygame.transform.scale(
+            CAR.convert_alpha(), (CAR.get_width() / factor, CAR.get_height() / factor)
+        )
+        self.width = self.car_surf.get_width()
+        self.height = self.car_surf.get_height()
+
         self.car_center = self.car_surf.get_rect().center
 
         self.rotated_surf = self.car_surf.copy()
