@@ -44,8 +44,9 @@ class FollowCar(BasicCar):
         Check if we are close to the current tracker and if so, update the tracker
         to the next one in the path. If there are no more trackers, stop the car and end the episode
         """
-        if self._distance_to_target() < 25:
-            self.path.update(self.tracker)
+        if self._distance_to_target() < self.width:
+            if not self.path.update(self.tracker):
+                self.stopped = True
             if not self.path.hasNext(self.tracker.step):
                 self.path.end_run(self.tracker)
                 self.stopped = True

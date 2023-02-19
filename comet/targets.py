@@ -57,8 +57,12 @@ class Path:
         return step < len(self.coordinates)
 
     def update(self, tracker: Tracker):
+        if tracker.step == self.stop_area and self.red_light_counter != 0:
+            return False
+
         tracker.target_x, tracker.target_y = self.coordinates[tracker.step]
         tracker.step += 1
+        return True
 
     def end_run(self, tracker: Tracker):
         tracker.end_time = pygame.time.get_ticks()

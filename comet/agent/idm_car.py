@@ -37,10 +37,9 @@ class IDMCar(FollowCar):
 
         if self.next_car_tracker.x != -1:
             s = self._euclidean_distance_to_(self.next_car_tracker.x, self.next_car_tracker.y) - self.width
-            s = s / SCALE
             velocity_difference = self.velocity - self.next_car_tracker.velocity
 
-            if abs(velocity_difference) > 10:
+            if abs(velocity_difference) > 5:
                 self.flag = 1
                 self.accelaration -= np.power(self.velocity * velocity_difference, 2) / 4 * b * np.power(s, 2)
             else:
@@ -48,11 +47,10 @@ class IDMCar(FollowCar):
                 self.accelaration -= self.MAX_ACCELERATION * np.power((s0 + self.velocity * T), 2) / np.power(s, 2)
 
         if self.accelaration > 0:
-            # self.stopped = False
-            pass
+            self.stopped = False
         else:
             self.accelaration = 0
             self.velocity = 0
-            # self.stopped = True
+            self.stopped = True
 
         self._update_target_tracker()

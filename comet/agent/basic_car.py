@@ -67,10 +67,15 @@ class BasicCar:
         """Calls rules to determine the value of accelaration and angular_velocity
         and then updates the position of the car
         """
-        if self.stopped:
-            return
-
         self.rules()
+
+        if self.stopped:
+            self.velocity = 0
+            self.accelaration = 0
+            self.angular_velocity = 0
+            if DEBUG:
+                pygame.draw.circle(pygame.display.get_surface(), Color.TICKLE_ME_PINK, (int(self.x), int(self.y)), 50, 2)
+            return
 
         self.angle %= 360
 
