@@ -76,7 +76,9 @@ class Path:
         tracker.road_length = self.total_distance * SCALE
 
     def draw(self, screen):
-        pygame.draw.lines(screen, Color.CULTURED, False, self.coordinates, 10)
+        pygame.draw.aalines(screen, Color.CULTURED, False, self.coordinates, 5)
+        for coord in self.coordinates:
+            pygame.draw.circle(screen, Color.CULTURED, coord, 3, 1, )
         if self.red_light_counter == 0:
             clr = Color.GREEN
         else:
