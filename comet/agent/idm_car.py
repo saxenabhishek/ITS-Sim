@@ -20,11 +20,10 @@ class IDMCar(FollowCar):
         """
         super().__init__(x, y, target)
         self.next_car_tracker = Tracker(-1, -1)
-        self.MAX_VELOCITY = random.uniform(3, 8)
-        self.MAX_ACCELERATION = random.uniform(0.5, 1.5)
+        self.MAX_VELOCITY, self.MAX_ACCELERATION = random.choice([(3, 0.05), (8, 0.08)])
 
     def rules(self):
-        s0 = 50  # minimum distance
+        s0 = 25  # minimum distance
         T = 1.5  # time gap
         b = 3
 
@@ -39,7 +38,7 @@ class IDMCar(FollowCar):
             s = self._euclidean_distance_to_(self.next_car_tracker.x, self.next_car_tracker.y) - self.width
             velocity_difference = self.velocity - self.next_car_tracker.velocity
 
-            if abs(velocity_difference) > 5:
+            if abs(velocity_difference) > 10:
                 self.flag = 1
                 self.accelaration -= np.power(self.velocity * velocity_difference, 2) / 4 * b * np.power(s, 2)
             else:
