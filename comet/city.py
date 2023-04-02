@@ -10,6 +10,7 @@ import pandas as pd
 from typing import List
 import numpy as np
 import time
+import random
 
 
 class City:
@@ -17,7 +18,7 @@ class City:
     INSERTION_TIME = 500
     INSERT_EVENT = pygame.USEREVENT + 1
     REDLIGHT_TICK = pygame.USEREVENT + 2
-    REDLIGHT_TICK_TIME = 5000
+    REDLIGHT_TICK_TIME = 2000
 
     def __init__(self) -> None:
         """
@@ -63,7 +64,7 @@ class City:
 
                 self.cars.remove(car)
 
-            line = np.arange(car.height / 2 - 1, 200, car.height / 2, dtype=np.int32)
+            line = np.arange(car.height - 1, 100, car.height / 2, dtype=np.int32)
             x, y = (
                 line * np.cos(np.radians(car.angle + 180)) + car.x,
                 line * np.sin(np.radians(car.angle + 180)) + car.y,
@@ -72,7 +73,7 @@ class City:
             car.next_car_tracker = Tracker(-1, -1)
             # TODO: make this more readable
             for point in np.array([x, y]).T:
-                # pygame.draw.circle(win, Color.BLACK, point, 3)
+                # pygame.draw.circle(win, Color.RED, point, 5, 1)
                 flag = 0
                 for other_car in self.cars:
                     if car != other_car and other_car.rotated_car_rect.collidepoint(point):

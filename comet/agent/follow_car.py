@@ -7,9 +7,6 @@ from comet.targets import Tracker, Path
 
 
 class FollowCar(BasicCar):
-    MAX_ACCELERATION = 0.05
-    MAX_VELOCITY = 5.0
-
     def __init__(self, x: int, y: int, path: Path):
         """
         Car that follows a target with constat velocity and constatn angular acceleration
@@ -22,6 +19,8 @@ class FollowCar(BasicCar):
         super().__init__(x, y)
         self.path = path
         self.tracker = Tracker(path.origin_x, path.origin_y)
+        self.MAX_ACCELERATION = 0.07
+        self.MAX_VELOCITY = 3
 
     def rules(self):
         desired_angle = self._angle_to_target()
@@ -71,7 +70,7 @@ class FollowCar(BasicCar):
 
     def draw(self, win: pygame.surface.Surface):
         if DEBUG:
-            pygame.draw.circle(win, Color.CULTURED, (self.tracker.target_x, self.tracker.target_y), radius=10)
+            pygame.draw.circle(win, Color.BLACK, (self.tracker.target_x, self.tracker.target_y), radius=10)
             base_point = (
                 min(self.x, self.tracker.target_x)
                 if self.x < self.tracker.target_x

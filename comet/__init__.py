@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 default_font = pygame.font.Font("comet/asset/SpaceMono-Regular.ttf", 20)
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
+SCREEN_WIDTH, SCREEN_HEIGHT = 800, 800
 
 SCALE = 0.1  # meters/pixel
 
