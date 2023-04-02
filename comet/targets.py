@@ -58,7 +58,7 @@ class Path:
         return step < len(self.coordinates)
 
     def update(self, tracker: Tracker):
-        if tracker.step == self.stop_area and self.red_light_counter != 0:
+        if self.stop_area > 0 and tracker.step == self.stop_area and self.red_light_counter != 0:
             return False
 
         tracker.target_x, tracker.target_y = self.coordinates[tracker.step]
