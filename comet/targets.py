@@ -8,7 +8,6 @@ class Tracker:
     def __init__(self, x_target: int, y_target: int) -> None:
         """
         Data store, personal to each CAR, will track anything that needs to be recorded
-        An extension of the Basic car itself under a sub class
         :param x: x coordinate of the car
         :type x: int
         :param y: y coordinate of the car
@@ -40,7 +39,7 @@ class Path:
         for arg in args:
             arg = np.add(arg, origin)
             origin = arg[-1]
-            segments.append(arg)
+            segments.append(arg[1:])
 
         coordinates = np.concatenate(segments)
         self.origin_x = coordinates[0][0]  # x coordinate of the first point
