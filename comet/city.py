@@ -89,9 +89,21 @@ class City:
         """add them to CSV file"""
 
         df = pd.DataFrame([tracker.__dict__ for tracker in self.trackers])
-        df.drop(columns=["path", "next_car_tracker", "ended", "target_x", "target_y", "tracker"], inplace=True)
-        print(df.columns)
 
+        df.drop(
+            columns=[
+                "path",
+                "next_car_tracker",
+                "ended",
+                "target_x",
+                "target_y",
+                "tracker",
+            ],
+            inplace=True,
+        )
+        print(df.columns)
+        name = "roundabout"
+        df.to_csv(f"{name}-{time.time()}.csv", mode="w", index=False)
         self.trackers.clear()
 
     def reset(self):
