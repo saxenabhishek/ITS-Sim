@@ -108,7 +108,7 @@ def main():
         clock.tick(FPS)
         stats.add(t=pygame.time.get_ticks() / 1000)  # time in seconds
 
-        if len(city.trackers) != 0 and len(city.trackers) % 5 == 0:
+        if len(city.trackers) != 0 and len(city.trackers) % 100 == 0:
             city.process_trackers()
 
         for event in pygame.event.get():
