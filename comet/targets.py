@@ -81,7 +81,8 @@ class Path:
             clr = Color.GREEN
         else:
             clr = Color.RED
-        pygame.draw.line(screen, clr, self.coordinates[self.stop_area], self.coordinates[self.stop_area + 1], 10)
+        if self.stop_area > 0:
+            pygame.draw.line(screen, clr, self.coordinates[self.stop_area], self.coordinates[self.stop_area + 1], 10)
         if DEBUG:
             colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
             i = 0
