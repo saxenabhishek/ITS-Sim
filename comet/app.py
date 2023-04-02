@@ -118,11 +118,7 @@ def main():
             if event.type == city.REDLIGHT_TICK:
                 city.consume_redlight_event()
 
-        keys_pressed = pygame.key.get_pressed()
-
-        # reset sprites
-        if keys_pressed[pygame.K_LSHIFT]:
-            city.reset()
+        # keys_pressed = pygame.key.get_pressed()
 
         # WIN.blit(BACKGROUND, (0, 0))
 
