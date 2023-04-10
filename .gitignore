@@ -2,4 +2,6 @@ __pycache__
 .vscode
 *.lock
 *temp*
+*.log.md
+in-dev-pics
 *.csv
