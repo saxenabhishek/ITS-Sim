@@ -4,7 +4,6 @@ import numpy as np
 
 from pygame import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from comet import Color, DEBUG
-from comet.utils import stats
 
 CAR = pygame.image.load("comet/asset/car.png")
 

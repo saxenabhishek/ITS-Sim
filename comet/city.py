@@ -28,7 +28,6 @@ class City:
         self.paths: List[Path] = []
         self.cars: List[IDMCar] = []
         self.trackers: List[Tracker] = []
-        self.time = 0
         pygame.time.set_timer(City.INSERT_EVENT, City.INSERTION_TIME, loops=0)
         pygame.time.set_timer(City.REDLIGHT_TICK, City.REDLIGHT_TICK_TIME, loops=0)
 
