@@ -14,7 +14,7 @@ FPS = 60
 class Color:
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
-    RED = (255, 100, 100)
+    RED = (200, 100, 100)
     OFF_WHITE = (240,) * 3
     GRAY = (128,) * 3
     STEEL_BLUE = (92, 140, 174, 255)
@@ -23,4 +23,4 @@ class Color:
     CULTURED = (245, 245, 245, 255)
     PRUSSIAN_BLUE = (5, 44, 74, 255)
     CYAN = (0, 255, 255)
-    GREEN = (0, 255, 0)
+    GREEN = (100, 200, 100)

@@ -25,7 +25,7 @@ class FollowCar(BasicCar):
     def rules(self):
         desired_angle = self._angle_to_target()
 
-        self.accelaration = self.MAX_ACCELERATION * (1 - (self.velocity / self.MAX_VELOCITY) ** 4)
+        self.acceleration = self.MAX_ACCELERATION * (1 - (self.velocity / self.MAX_VELOCITY) ** 4)
 
         angular_acceleration = 0.1 * (1 - (self.angular_velocity / 10) ** 4)
         self.angular_velocity += angular_acceleration
@@ -43,12 +43,12 @@ class FollowCar(BasicCar):
         Check if we are close to the current tracker and if so, update the tracker
         to the next one in the path. If there are no more trackers, stop the car and end the episode
         """
-        if self._distance_to_target() < self.width:
-            if not self.path.update(self.tracker):
-                self.stopped = True
-            if not self.path.hasNext(self.tracker.step):
+        if self._distance_to_target() < 2*self.width:
+            if self.path.has_next_step(self.tracker):
+                self.path.update(self.tracker)
+            else:
                 self.path.end_run(self.tracker)
-                self.stopped = True
+                self.stopped = pygame.time.get_ticks()
 
     def _distance_to_target(self):
         return self._euclidean_distance_to_(self.tracker.target_x, self.tracker.target_y)
@@ -92,4 +92,4 @@ class FollowCar(BasicCar):
         self.velocity = 0
         self.angle = 0
         self.angular_velocity = 0
-        self.stopped = False
+        self.stopped = -1

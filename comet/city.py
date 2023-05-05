@@ -17,7 +17,7 @@ class City:
     time_rn = pygame.time.get_ticks()
     INSERTION_TIME = 500
     INSERT_EVENT = pygame.USEREVENT + 1
-    REDLIGHT_TICK = pygame.USEREVENT + 2
+    REDLIGHT_TICK_EVENT = pygame.USEREVENT + 2
     REDLIGHT_TICK_TIME = 2000
 
     def __init__(self) -> None:
@@ -29,15 +29,19 @@ class City:
         self.cars: List[IDMCar] = []
         self.trackers: List[Tracker] = []
         pygame.time.set_timer(City.INSERT_EVENT, City.INSERTION_TIME, loops=0)
-        pygame.time.set_timer(City.REDLIGHT_TICK, City.REDLIGHT_TICK_TIME, loops=0)
+        pygame.time.set_timer(City.REDLIGHT_TICK_EVENT, City.REDLIGHT_TICK_TIME, loops=0)
 
     def add_path(self, road: Path, redlight: int = 1):
-        road.stop_area = redlight
-        road.red_light_counter = len(self.paths)
         self.paths.append(road)
         newcar = IDMCar(*road.start, road)
         newcar.tracker.start_time = pygame.time.get_ticks()
         self.cars.append(newcar)
+
+    def process_event(self, event):
+        if event.type == self.INSERT_EVENT:
+            self.consume_car_event()
+        if event.type == self.REDLIGHT_TICK_EVENT:
+            self.consume_redlight_event()
 
     def consume_car_event(self):
         path = random.choice(self.paths)

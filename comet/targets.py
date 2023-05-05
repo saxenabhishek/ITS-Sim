@@ -30,40 +30,32 @@ class Tracker:
 
 
 class Path:
-    def __init__(self, origin, *args):
+    def __init__(self, *segments):
         """
         Path is a collection of coordinates that any number of cars will follow
         keeps track of the navigation of the cars and updates their Trackers as required
         """
-        segments = []
-        for arg in args:
-            arg = np.add(arg, origin)
-            origin = arg[-1]
-            segments.append(arg[1:])
 
         coordinates = np.concatenate(segments)
+
         self.origin_x = coordinates[0][0]  # x coordinate of the first point
         self.origin_y = coordinates[0][1]  # y coordinate of the first point
         self.start = (self.origin_x, self.origin_y)
         self.coordinates = coordinates
 
-        self.stop_area = len(coordinates) - 5
-        self.red_light_counter = 0
-
         self.total_distance = 0  # in pixels
         for i in range(1, len(coordinates)):
             self.total_distance += np.sqrt(np.sum(np.subtract(coordinates[i], coordinates[i - 1]) ** 2, axis=0))
 
-    def hasNext(self, step):
-        return step < len(self.coordinates)
+    def has_next_step(self, tracker: Tracker):
+        tracker.step += 1
+        return tracker.step < len(self.coordinates)
 
     def update(self, tracker: Tracker):
-        if self.stop_area > 0 and tracker.step == self.stop_area and self.red_light_counter != 0:
-            return False
+        # if self.stop_area > 0 and tracker.step == self.stop_area and self.red_light_counter != 0:
+        #     return False
 
         tracker.target_x, tracker.target_y = self.coordinates[tracker.step]
-        tracker.step += 1
-        return True
 
     def end_run(self, tracker: Tracker):
         tracker.end_time = pygame.time.get_ticks()
@@ -76,15 +68,15 @@ class Path:
         tracker.road_length = self.total_distance * SCALE
 
     def draw(self, screen):
-        pygame.draw.aalines(screen, Color.CULTURED, False, self.coordinates, 5)
-        for coord in self.coordinates:
-            pygame.draw.circle(screen, Color.CULTURED, coord, 3, 1, )
-        if self.red_light_counter == 0:
-            clr = Color.GREEN
-        else:
-            clr = Color.RED
-        if self.stop_area > 0:
-            pygame.draw.line(screen, clr, self.coordinates[self.stop_area], self.coordinates[self.stop_area + 1], 10)
+        pygame.draw.aalines(screen, Color.CULTURED, False, self.coordinates, 3)
+        pygame.draw.circle(
+            screen,
+            Color.CYAN,
+            self.coordinates[-1],
+            8,
+            6,
+        )
+
         if DEBUG:
             colors = [Color.AMBER, Color.TICKLE_ME_PINK, Color.CYAN]
             i = 0

@@ -1,8 +1,8 @@
 import pygame
 from comet import SCREEN_HEIGHT, SCREEN_WIDTH, FPS, Color
 from comet.utils import WindowPrinter, stats
-from comet.premade_city import PremadePaths
-from comet.city import City
+from comet.grid_city import GridCity
+from datetime import datetime
 
 WIN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -18,28 +18,38 @@ def main():
     """
     global run
 
-    city = City()
+    N0_OF_RUNS = 10
 
-    city = PremadePaths.roundabout(city)
-    # city = PremadePaths.crossroad(city)
+    city = GridCity()
+
+    run_no = 1
 
     while run:
         clock.tick(FPS)
-        stats.add(t=pygame.time.get_ticks() / 1000)  # time in seconds
 
-        if len(city.trackers) != 0 and len(city.trackers) % 100 == 0:
-            city.process_trackers()
+        t = pygame.time.get_ticks()
+        stats.add(t=t / 1000)  # time in seconds
 
         for event in pygame.event.get():
             run = False if event.type == pygame.QUIT else True
-            if event.type == city.INSERT_EVENT:
-                city.consume_car_event()
-            if event.type == city.REDLIGHT_TICK:
-                city.consume_redlight_event()
+            city.process_event(event)
 
-        # keys_pressed = pygame.key.get_pressed()
+        if run_no == N0_OF_RUNS:
+            run = False
+            break
 
         # WIN.blit(BACKGROUND, (0, 0))
+
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_LSHIFT]:
+            filename = str(datetime.now()).replace(" ", "T").replace(":", "-").replace(".", "-")
+            pygame.image.save(WIN, f"./in-dev-pics/IMG{filename}.png")
+
+        if (t / 1000) > run_no * 20:
+            print("time to reset!")
+            run_no += 1
+            # city.end_episode_save()
+            city.end_run_and_reset()
 
         WIN.fill(Color.PRUSSIAN_BLUE)
 

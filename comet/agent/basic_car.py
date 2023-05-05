@@ -5,26 +5,28 @@ import numpy as np
 from pygame import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from comet import Color, DEBUG
 
-CAR = pygame.image.load("comet/asset/car.png")
+# CAR = pygame.image.load("comet/asset/car.png")
+# CAR = pygame.image.load("comet/asset/future_car.png")
+CAR = pygame.image.load("comet/asset/car2.png")
 
 
 class BasicCar:
-    accelaration = 0
-    stopped = False
+    acceleration = 0
+    stopped = -1
 
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
         self.angle = 0
 
-        # positve is forward and negative is backward
+        # positive is forward and negative is backward
         self.velocity = 0
         self.angular_velocity = 0
 
         self.trail = [(x, y, 1.0)]
 
         # todo: extract to func later
-        factor = 15
+        factor = 5
         self.car_surf = pygame.transform.scale(
             CAR.convert_alpha(), (CAR.get_width() / factor, CAR.get_height() / factor)
         )
@@ -67,22 +69,27 @@ class BasicCar:
         self.angle += self.angular_velocity
 
     def update(self):
-        """Calls rules to determine the value of accelaration and angular_velocity
+        """Calls rules to determine the value of acceleration and angular_velocity
         and then updates the position of the car
         """
         self.rules()
 
-        if self.stopped:
+        if self.stopped != -1:
+            if pygame.time.get_ticks() - self.stopped > 1000:
+                self.stopped = -1
+                self.angle += 90
             self.velocity = 0
-            self.accelaration = 0
+            self.acceleration = 0
             self.angular_velocity = 0
-            if DEBUG:
-                pygame.draw.circle(pygame.display.get_surface(), Color.TICKLE_ME_PINK, (int(self.x), int(self.y)), 50, 2)
+            if True:
+                pygame.draw.circle(
+                    pygame.display.get_surface(), Color.TICKLE_ME_PINK, (int(self.x), int(self.y)), 30, 2
+                )
             return
 
         self.angle %= 360
 
-        self.velocity += self.accelaration
+        self.velocity += self.acceleration
 
         radian = np.radians(self.angle)
 
