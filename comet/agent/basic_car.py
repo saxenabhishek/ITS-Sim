@@ -26,7 +26,7 @@ class BasicCar:
         self.trail = [(x, y, 1.0)]
 
         # todo: extract to func later
-        factor = 5
+        factor = 7
         self.car_surf = pygame.transform.scale(
             CAR.convert_alpha(), (CAR.get_width() / factor, CAR.get_height() / factor)
         )

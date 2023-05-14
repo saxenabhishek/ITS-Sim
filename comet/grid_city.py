@@ -249,7 +249,7 @@ class GridCity:
                 travel_times.append(car.tracker.end_time - car.tracker.start_time)
 
         total_travel_time = mean(travel_times)
-        print(total_travel_time/1000)
+        print("Total travel time \t ",total_travel_time/1000)
 
         self.init_paths(20)
         self.cars = []

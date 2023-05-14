@@ -46,7 +46,7 @@ def main():
             pygame.image.save(WIN, f"./in-dev-pics/IMG{filename}.png")
 
         if (t / 1000) > run_no * 20:
-            print("time to reset!")
+            print("Run NO. ", run_no)
             run_no += 1
             # city.end_episode_save()
             city.end_run_and_reset()
